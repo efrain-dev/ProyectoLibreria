@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VentapCreateDlg" widgetVar="VentapCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateVentapTitle}">
+            <h:form id="VentapCreateForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ventapController.selected != null}">
+                        <p:outputLabel value="#{bundle.CreateVentapLabel_idventap}" for="idventap" />
+                        <p:inputText id="idventap" value="#{ventapController.selected.idventap}" title="#{bundle.CreateVentapTitle_idventap}" required="true" requiredMessage="#{bundle.CreateVentapRequiredMessage_idventap}"/>
+                        <p:outputLabel value="#{bundle.CreateVentapLabel_cantidad}" for="cantidad" />
+                        <p:inputText id="cantidad" value="#{ventapController.selected.cantidad}" title="#{bundle.CreateVentapTitle_cantidad}" />
+                        <p:outputLabel value="#{bundle.CreateVentapLabel_precioVental}" for="precioVental" />
+                        <p:inputText id="precioVental" value="#{ventapController.selected.precioVental}" title="#{bundle.CreateVentapTitle_precioVental}" />
+                        <p:outputLabel value="#{bundle.CreateVentapLabel_productosIdproductos}" for="productosIdproductos" />
+                        <p:selectOneMenu id="productosIdproductos" value="#{ventapController.selected.productosIdproductos}" required="false" requiredMessage="#{bundle.EditVentapRequiredMessage_productosIdproductos}">
+                            <f:selectItems value="#{productosController.itemsAvailableSelectOne}"
+                                           var="productosIdproductosItem"
+                                           itemValue="#{productosIdproductosItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateVentapLabel_ventasIdventas}" for="ventasIdventas" />
+                        <p:selectOneMenu id="ventasIdventas" value="#{ventapController.selected.ventasIdventas}" required="true" requiredMessage="#{bundle.EditVentapRequiredMessage_ventasIdventas}">
+                            <f:selectItems value="#{ventasController.itemsAvailableSelectOne}"
+                                           var="ventasIdventasItem"
+                                           itemValue="#{ventasIdventasItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ventapController.create}" value="#{bundle.Save}" update="display,:VentapListForm:datalist,:growl" oncomplete="handleSubmit(args,'VentapCreateDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="VentapCreateDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>

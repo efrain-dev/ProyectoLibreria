@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition>
+
+        <p:dialog id="VentasEditDlg" widgetVar="VentasEditDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.EditVentasTitle}">
+            <h:form id="VentasEditForm">
+                <h:panelGroup id="display">
+                    <p:panelGrid columns="2" rendered="#{ventasController.selected != null}">
+                        <p:outputLabel value="#{bundle.EditVentasLabel_idventas}" for="idventas" />
+                        <p:inputText id="idventas" value="#{ventasController.selected.idventas}" title="#{bundle.EditVentasTitle_idventas}" required="true" requiredMessage="#{bundle.EditVentasRequiredMessage_idventas}"/>
+                        <p:outputLabel value="#{bundle.EditVentasLabel_fecha}" for="fecha" />
+                        <p:calendar id="fecha" pattern="MM/dd/yyyy" value="#{ventasController.selected.fecha}" title="#{bundle.EditVentasTitle_fecha}"  showOn="button"/>
+                        <p:outputLabel value="#{bundle.EditVentasLabel_montototal}" for="montototal" />
+                        <p:inputText id="montototal" value="#{ventasController.selected.montototal}" title="#{bundle.EditVentasTitle_montototal}" />
+                        <p:outputLabel value="#{bundle.EditVentasLabel_clienteIdcliente}" for="clienteIdcliente" />
+                        <p:selectOneMenu id="clienteIdcliente" value="#{ventasController.selected.clienteIdcliente}" required="true" requiredMessage="#{bundle.EditVentasRequiredMessage_clienteIdcliente}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{clienteController.itemsAvailableSelectOne}"
+                                           var="clienteIdclienteItem"
+                                           itemValue="#{clienteIdclienteItem}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.EditVentasLabel_empleadodpiEmpleado}" for="empleadodpiEmpleado" />
+                        <p:selectOneMenu id="empleadodpiEmpleado" value="#{ventasController.selected.empleadodpiEmpleado}" required="true" requiredMessage="#{bundle.EditVentasRequiredMessage_empleadodpiEmpleado}">
+                            <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>
+                            <f:selectItems value="#{empleadoController.itemsAvailableSelectOne}"
+                                           var="empleadodpiEmpleadoItem"
+                                           itemValue="#{empleadodpiEmpleadoItem}"/>
+                        </p:selectOneMenu>
+                    </p:panelGrid>
+                    <p:commandButton actionListener="#{ventasController.update}" value="#{bundle.Save}" update="display,:VentasListForm:datalist,:growl" oncomplete="handleSubmit(args, 'VentasEditDialog');"/>
+                    <p:commandButton value="#{bundle.Cancel}" onclick="VentasEditDialog.hide()"/>
+                </h:panelGroup>
+            </h:form>
+        </p:dialog>
+
+    </ui:composition>
+</html>
